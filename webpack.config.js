@@ -27,7 +27,7 @@ module.exports = {
          jquery: 'jquery'
       }),
     new HtmlWebpackPlugin({
-      title: 'Bear Game',
+      title: 'Puppy or Hedgehog?',
       template: './src/index.html',
       inject: 'body'
     })
