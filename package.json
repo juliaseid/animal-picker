@@ -2,12 +2,13 @@
   "name": "animal-picker",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --mode development",
     "start": "npm run build; webpack-dev-server --open --mode development",
     "lint": "eslint src/*.js",
-    "test": "jest"
+    "test": "jest",
+    "debug": "node --inspect node_modules/.bin/jest --runInBand"
   },
   "keywords": [],
   "author": "",
@@ -31,8 +32,8 @@
     "webpack-dev-server": "^3.8.0"
   },
   "dependencies": {
-    "bootstrap": "3.3.7",
-    "jquery": "^3.5.0",
-    "popper.js": "^1.16.1"
+    "bootstrap": "^4.3.1",
+    "jquery": "^3.4.1",
+    "popper.js": "^1.15.1"
   }
 }

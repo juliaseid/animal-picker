@@ -1,3 +1,19 @@
 #game {
   display: none;
 }
+
+#puppy {
+  margin-top: 20px;
+  margin-left: 80px;
+  margin-bottom: 20px;
+}
+
+#hedgie {
+  margin-top: 20px;
+  margin-left: -80px;
+  margin-bottom: 20px;
+}
+
+#score {
+  display: none;
+}
