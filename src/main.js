@@ -6,46 +6,66 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.css';
 import { Game } from './game.js';
 
-function getElements(animalResponse) {
+function getElements(animalResponse, id) {
   if (animalResponse) {
-    console.log(animalResponse.photos[0].src.medium);
-    $('.images').html(`<img src = ${animalResponse.photos[0].src.medium}>`);
+    $('.images').html(`<img src = ${animalResponse.photos[0].src.medium} id = ${id}>`);
   } else {
     $('.images').text("Uh oh! We can't find any cute animals right now!");
   }
 }
 
-function endGame(game) {
-  if (game.gameOver === true) {
-    $("#game").hide();
-    $("#ask").hide();
-    $("#score").show();
-  }
-}
+
+
+// function endGame(game) {
+//   if (game.gameOver === true) {
+//     $("#game").hide();
+//     $("#ask").hide();
+//     $("#score").show();
+//   }
+// }
 
 $(document).ready(function() {
   let myGame = new Game;
+
+  function checkForMatch(btnId) {
+    let imgId = $('.images > img').attr('id');
+   
+    if(btnId === imgId) {
+      myGame.addScore();
+    } else {
+      console.log("Wrong");
+    }
+  }
  
   async function getService() {
     let rand = Math.random();
     if (rand <= 0.5) {
       let hedgehog = new hedgehogImageService();
-      let animalType = 'hedgie'
+      let animalType = 'hedgie';
       const hedgieResponse = await hedgehog.getRandomHedgeHog();
-      getElements(hedgieResponse);
-      myGame.pictures.push(animalType);
-      }
-    else if (rand > 0.5) {
-      let puppy = new puppyImageService();
-      let animalType = 'puppy'
-      const puppyResponse = await puppy.getRandomPuppy();
-      getElements(puppyResponse);
+      getElements(hedgieResponse, animalType);
       myGame.pictures.push(animalType);
     }
-  };
+    else if (rand > 0.5) {
+      let puppy = new puppyImageService();
+      let animalType = 'puppy';
+      const puppyResponse = await puppy.getRandomPuppy();
+      getElements(puppyResponse, animalType);
+      myGame.pictures.push(animalType);
+    }
+  }
+
+  function endGame() {
+    setTimeout(()  => {
+        $("#game").hide();
+        $("#correct").text(myGame.score);
+        $("#score").show();
+    }, 30000);
+  }
   
   $("form#askStart").submit(function(event) {
     event.preventDefault();
+    // myGame.timesUp();
     myGame.decreaseTimer();
     setInterval(() => {
       $('#countdown').text(myGame.timer);
@@ -53,25 +73,36 @@ $(document).ready(function() {
     $("#game").show();
     $("#ask").hide();
     getService();
+    endGame();
+
+  
   });
 
   $("#puppy").click(function() {  
     myGame.clicks.push('puppy');
-    console.log(myGame.clicks);  
-    getService(); 
-  });
+    getService();
+    let id = $(this).attr('id');
+    checkForMatch(id);
+  
+  });  
 
   $("#hedgie").click(function() {
     myGame.clicks.push('hedgie');
-    console.log(myGame.clicks);
     getService();
+    let id = $(this).attr('id');
+    checkForMatch(id);
+
   });
+
+  $("#reset").click(function() {
+    location.reload();
+  });
+
+
+
   
   
   
-  myGame.timesUp();
-  myGame.scoreUp();
-  endGame(myGame);
   
 });
 

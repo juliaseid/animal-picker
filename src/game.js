@@ -1,11 +1,11 @@
 export class Game {
- constructor () {
-   this.score = 0;
-   this.pictures = [];
-   this.clicks = [];
-   this.gameOver = false;
-   this.timer = 30;
- }
+  constructor () {
+    this.score = 0;
+    this.pictures = [];
+    this.clicks = [];
+    this.gameOver = false;
+    this.timer = 30;
+  }
 
   // This functionality now happens in main.js
   //  photoPick() {
@@ -26,25 +26,33 @@ export class Game {
   // };
 
   scoreUp() {
-    if (this.timer === 0) {
-      for (let i=0; i < this.pictures.length; i ++) {
-        if (this.pictures[i] === this.clicks[i]) {
-          this.score ++
-        }; 
+    for (let i=0; i < this.pictures.length; i ++) {
+      if (this.pictures[i] === this.clicks[i]) {
+        this.score ++;
       }
     }
-  }; 
+  } 
 
-  timesUp() {
-    setTimeout(()  => {
-    this.gameOver = true
-    }, 30000)
-  };
+   timesUp() {
+     setTimeout(()  => {
+       this.gameOver = true;
+     }, 30000);
+   }
 
   decreaseTimer() {
     setInterval(() => {
-      this.timer -= 1
+      if (this.timer > 0) {
+        this.timer -= 1;
+      }
+      else {
+        this.gameOver = true;
+        clearInterval();
+      }
     }, 1000);
-  };
+  }
 
-};
+  addScore() {
+    this.score += 1;
+  }
+
+}
